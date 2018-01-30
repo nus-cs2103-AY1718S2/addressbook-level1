@@ -618,13 +618,13 @@ public class AddressBook {
     /**
      * Shows a message to the user
      */
-    /*private static void showToUser(String... message) {
+    private static void showToUser(String... message) {
         for (String m : message) {
             System.out.println(LINE_PREFIX + m);
         }
-    }*/
+    }
     //Without Varargs
-    private static void showToUser(String message) {
+    /*private static void showToUser(String message) {
             System.out.println(LINE_PREFIX + message);
     }
     private static void showToUser(String message, String message2) {
@@ -648,7 +648,7 @@ public class AddressBook {
         System.out.println(LINE_PREFIX + message3);
         System.out.println(LINE_PREFIX + message4);
         System.out.println(LINE_PREFIX + message5);
-    }
+    }*/
 
     /**
      * Shows the list of persons to the user.
