@@ -44,7 +44,7 @@ public class AddressBook {
     /**
      * Version info of the program.
      */
-    private static final String VERSION = "AddessBook Level 1 - Version 1.0";
+    private static final String VERSION = "AddressBook Level 1 - Version 1.0";
 
     /**
      * A decorative prefix added to the beginning of lines printed by AddressBook
@@ -73,7 +73,7 @@ public class AddressBook {
     private static final String MESSAGE_DELETE_PERSON_SUCCESS = "Deleted Person: %1$s";
     private static final String MESSAGE_DISPLAY_PERSON_DATA = "%1$s  Phone Number: %2$s  Email: %3$s";
     private static final String MESSAGE_DISPLAY_LIST_ELEMENT_INDEX = "%1$d. ";
-    private static final String MESSAGE_GOODBYE = "Exiting Address Book... Good bye!";
+    private static final String MESSAGE_GOODBYE = "Exiting Address Book... Goodbye!";
     private static final String MESSAGE_INVALID_COMMAND_FORMAT = "Invalid command format: %1$s " + LS + "%2$s";
     private static final String MESSAGE_INVALID_FILE = "The given file name [%1$s] is not a valid file name!";
     private static final String MESSAGE_INVALID_PROGRAM_ARGS = "Too many parameters! Correct program argument format:"
@@ -114,6 +114,10 @@ public class AddressBook {
     private static final String COMMAND_LIST_WORD = "list";
     private static final String COMMAND_LIST_DESC = "Displays all persons as a list with index numbers.";
     private static final String COMMAND_LIST_EXAMPLE = COMMAND_LIST_WORD;
+
+    private static final String COMMAND_SORT_WORD = "sort";
+    private static final String COMMAND_SORT_DESC = "Displays all persons in alphabetical order.";
+    private static final String COMMAND_SORT_EXAMPLE = COMMAND_SORT_WORD;
 
     private static final String COMMAND_DELETE_WORD = "delete";
     private static final String COMMAND_DELETE_DESC = "Deletes a person identified by the index number used in "
@@ -238,7 +242,7 @@ public class AddressBook {
      * NOTE : =============================================================
      * Parameter description can be omitted from the method header comment
      * if the parameter name is self-explanatory.
-     * In the method below, '@param userInput' comment has been omitted.
+     * In the method below, '@param userCommand' comment has been omitted.
      * ====================================================================
      */
 
@@ -377,6 +381,8 @@ public class AddressBook {
             return executeListAllPersonsInAddressBook();
         case COMMAND_DELETE_WORD:
             return executeDeletePerson(commandArgs);
+        case COMMAND_SORT_WORD:
+            return executeSortAllPersonsInAddressBook();
         case COMMAND_CLEAR_WORD:
             return executeClearAddressBook();
         case COMMAND_HELP_WORD:
@@ -577,6 +583,16 @@ public class AddressBook {
         ArrayList<String[]> toBeDisplayed = getAllPersonsInAddressBook();
         showToUser(toBeDisplayed);
         return getMessageForPersonsDisplayedSummary(toBeDisplayed);
+    }
+
+    private static String executeSortAllPersonsInAddressBook() {
+        ArrayList<String[]> toBeDisplayed = sort(getAllPersonsInAddressBook());
+        showToUser(toBeDisplayed);
+        return getMessageForPersonsDisplayedSummary(toBeDisplayed);
+    }
+
+    private static ArrayList<String[]> sort(ArrayList<String[]> persons) {
+        return persons;
     }
 
     /**
@@ -1084,7 +1100,8 @@ public class AddressBook {
     private static String getUsageInfoForAllCommands() {
         return getUsageInfoForAddCommand() + LS
                 + getUsageInfoForFindCommand() + LS
-                + getUsageInfoForViewCommand() + LS
+                + getUsageInfoForListCommand() + LS
+                + getUsageInfoForSortCommand() + LS
                 + getUsageInfoForDeleteCommand() + LS
                 + getUsageInfoForClearCommand() + LS
                 + getUsageInfoForExitCommand() + LS
@@ -1119,9 +1136,14 @@ public class AddressBook {
     }
 
     /** Returns the string for showing 'view' command usage instruction */
-    private static String getUsageInfoForViewCommand() {
+    private static String getUsageInfoForListCommand() {
         return String.format(MESSAGE_COMMAND_HELP, COMMAND_LIST_WORD, COMMAND_LIST_DESC) + LS
                 + String.format(MESSAGE_COMMAND_HELP_EXAMPLE, COMMAND_LIST_EXAMPLE) + LS;
+    }
+
+    private static String getUsageInfoForSortCommand() {
+        return String.format(MESSAGE_COMMAND_HELP, COMMAND_SORT_WORD, COMMAND_SORT_DESC) + LS
+                + String.format(MESSAGE_COMMAND_HELP_EXAMPLE, COMMAND_SORT_EXAMPLE) + LS;
     }
 
     /** Returns string for showing 'help' command usage instruction */
