@@ -80,6 +80,12 @@ oldest first.
 
 Format: `list`  
 
+#### Sorting all persons: `sort`
+
+> Shows a list of persons, as an indexed list, alphabetically, according to their names
+
+Format: `list`  
+
 #### Finding a person by keyword `find`
 > Finds persons that match given keywords
 
