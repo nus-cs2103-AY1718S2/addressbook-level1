@@ -227,11 +227,13 @@ public class AddressBook {
      */
 
     private static void showWelcomeMessage() {
-        showToUser(DIVIDER, DIVIDER, VERSION, MESSAGE_WELCOME, DIVIDER);
+        String[] messages = {DIVIDER, DIVIDER, VERSION, MESSAGE_WELCOME, DIVIDER};
+        showToUser(messages);
     }
 
     private static void showResultToUser(String result) {
-        showToUser(result, DIVIDER);
+        String[] messages = {result, DIVIDER};
+        showToUser(messages);
     }
 
     /*
@@ -291,7 +293,8 @@ public class AddressBook {
      * Displays the goodbye message and exits the runtime.
      */
     private static void exitProgram() {
-        showToUser(MESSAGE_GOODBYE, DIVIDER, DIVIDER);
+        String[] messages = {MESSAGE_GOODBYE, DIVIDER, DIVIDER};
+        showToUser(messages);
         System.exit(0);
     }
 
@@ -618,9 +621,14 @@ public class AddressBook {
     /**
      * Shows a message to the user
      */
-    private static void showToUser(String... message) {
-        for (String m : message) {
-            System.out.println(LINE_PREFIX + m);
+    private static void showToUser(String message) {
+        System.out.println(LINE_PREFIX + message);
+    }
+
+    private static void showToUser(String[] messages) {
+        for(int i = 0; i < messages.length; i++) {
+            String message = messages[i];
+            System.out.println(LINE_PREFIX + message);
         }
     }
 
