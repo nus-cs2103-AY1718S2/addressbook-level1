@@ -92,6 +92,22 @@
   list
 
 ##########################################################
+# test edit command
+##########################################################
+
+  # should catch invalid args format
+  edit
+
+  # should catch invalid index
+  edit -1
+  edit 0
+  edit 3
+
+  # edits correct index
+  edit 2 Adam Brown p/111111 e/adam@gmail.com
+  list
+
+##########################################################
 # test clear command
 ##########################################################
 
