@@ -70,6 +70,7 @@ public class AddressBook {
     private static final String MESSAGE_COMMAND_HELP = "%1$s: %2$s";
     private static final String MESSAGE_COMMAND_HELP_PARAMETERS = "\tParameters: %1$s";
     private static final String MESSAGE_COMMAND_HELP_EXAMPLE = "\tExample: %1$s";
+    private static final String MESSAGE_COMMAND_CALL_EXAMPLE = "\tExample: history";
     private static final String MESSAGE_DELETE_PERSON_SUCCESS = "Deleted Person: %1$s";
     private static final String MESSAGE_DISPLAY_PERSON_DATA = "%1$s  Phone Number: %2$s  Email: %3$s";
     private static final String MESSAGE_DISPLAY_LIST_ELEMENT_INDEX = "%1$d. ";
@@ -98,6 +99,11 @@ public class AddressBook {
     private static final String PERSON_STRING_REPRESENTATION = "%1$s " // name
                                                             + PERSON_DATA_PREFIX_PHONE + "%2$s " // phone
                                                             + PERSON_DATA_PREFIX_EMAIL + "%3$s"; // email
+
+    private static final String COMMAND_CALL_WORD = "history";
+    private static final String COMMAND_CALL_DESC = "View last 3 commands entered.";
+    private static final String COMMAND_CALL_EXAMPLE = "history";
+
     private static final String COMMAND_ADD_WORD = "add";
     private static final String COMMAND_ADD_DESC = "Adds a person to the address book.";
     private static final String COMMAND_ADD_PARAMETERS = "NAME "
@@ -149,6 +155,7 @@ public class AddressBook {
      * The number of data elements for a single person.
      */
     private static final int PERSON_DATA_COUNT = 3;
+    private static final int COMMAND_MAX = 3;
 
     /**
      * Offset required to convert between 1-indexing and 0-indexing.COMMAND_
@@ -189,6 +196,7 @@ public class AddressBook {
      * those persons from this list.
      */
     private static ArrayList<String[]> latestPersonListingView = getAllPersonsInAddressBook(); // initial view is of all
+    private static ArrayList<String> listOfCommands = new ArrayList<String>(3);
 
     /**
      * The path to the file used for storing person data.
@@ -227,6 +235,7 @@ public class AddressBook {
      */
 
     private static void showWelcomeMessage() {
+        preProcessAL();
         showToUser(DIVIDER, DIVIDER, VERSION, MESSAGE_WELCOME, DIVIDER);
     }
 
@@ -369,6 +378,9 @@ public class AddressBook {
         final String commandType = commandTypeAndParams[0];
         final String commandArgs = commandTypeAndParams[1];
         switch (commandType) {
+        case COMMAND_CALL_WORD:
+            getPreviousCommands();
+            return "";
         case COMMAND_ADD_WORD:
             return executeAddPerson(commandArgs);
         case COMMAND_FIND_WORD:
@@ -383,6 +395,7 @@ public class AddressBook {
             return getUsageInfoForAllCommands();
         case COMMAND_EXIT_WORD:
             executeExitProgramRequest();
+
         default:
             return getMessageForInvalidCommandInput(commandType, getUsageInfoForAllCommands());
         }
@@ -601,12 +614,51 @@ public class AddressBook {
     private static String getUserInput() {
         System.out.print(LINE_PREFIX + "Enter command: ");
         String inputLine = SCANNER.nextLine();
+
+        checkInput(inputLine);
         // silently consume all blank and comment lines
         while (inputLine.trim().isEmpty() || inputLine.trim().charAt(0) == INPUT_COMMENT_MARKER) {
             inputLine = SCANNER.nextLine();
         }
         return inputLine;
     }
+
+    private static void checkInput(String input) {
+        if (input.equals(COMMAND_CALL_WORD)) {
+            getPreviousCommands();
+        } else {
+            rememberInput(input);
+        }
+    }
+
+    private static void rememberInput(String input) {
+        //1:previous third. 3:previous first
+        listOfCommands.add(0, input);
+    }
+
+    private static void getPreviousCommands() {
+        ArrayList<String> filteredList = new ArrayList<String>();
+        //1:previous third. 3:previous first
+        for (int i = 0; i < 3; i++) {
+            filteredList.add(0, listOfCommands.get(i));
+        }
+        printPreviousCommands(filteredList);
+    }
+
+    private static void printPreviousCommands(ArrayList<String> filteredList) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < filteredList.size(); i++) {
+            sb.append(filteredList.get(2 - i) + "\n" + LINE_PREFIX);
+        }
+        showToUser(sb.toString());
+    }
+
+    private static void preProcessAL() {
+        for (int i = 0; i < 3; i++) {
+            listOfCommands.add("");
+        }
+    }
+
 
    /*
     * NOTE : =============================================================
@@ -1088,7 +1140,8 @@ public class AddressBook {
                 + getUsageInfoForDeleteCommand() + LS
                 + getUsageInfoForClearCommand() + LS
                 + getUsageInfoForExitCommand() + LS
-                + getUsageInfoForHelpCommand();
+                + getUsageInfoForHelpCommand() + LS
+                + getUsageInfoForCallCommand();
     }
 
     /** Returns the string for showing 'add' command usage instruction */
@@ -1126,14 +1179,19 @@ public class AddressBook {
 
     /** Returns string for showing 'help' command usage instruction */
     private static String getUsageInfoForHelpCommand() {
-        return String.format(MESSAGE_COMMAND_HELP, COMMAND_HELP_WORD, COMMAND_HELP_DESC)
-                + String.format(MESSAGE_COMMAND_HELP_EXAMPLE, COMMAND_HELP_EXAMPLE);
+        return String.format(MESSAGE_COMMAND_HELP, COMMAND_HELP_WORD, COMMAND_HELP_DESC) + LS
+                + String.format(MESSAGE_COMMAND_HELP_EXAMPLE, COMMAND_HELP_EXAMPLE) + LS;
+    }
+
+    private static String getUsageInfoForCallCommand() {
+        return String.format(MESSAGE_COMMAND_HELP, COMMAND_CALL_WORD, COMMAND_CALL_DESC) + LS
+                + String.format(MESSAGE_COMMAND_CALL_EXAMPLE, COMMAND_CALL_EXAMPLE) + LS;
     }
 
     /** Returns the string for showing 'exit' command usage instruction */
     private static String getUsageInfoForExitCommand() {
-        return String.format(MESSAGE_COMMAND_HELP, COMMAND_EXIT_WORD, COMMAND_EXIT_DESC)
-                + String.format(MESSAGE_COMMAND_HELP_EXAMPLE, COMMAND_EXIT_EXAMPLE);
+        return String.format(MESSAGE_COMMAND_HELP, COMMAND_EXIT_WORD, COMMAND_EXIT_DESC) + LS
+                + String.format(MESSAGE_COMMAND_HELP_EXAMPLE, COMMAND_EXIT_EXAMPLE) + LS;
     }
 
 
