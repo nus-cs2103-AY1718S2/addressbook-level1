@@ -14,14 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 /*
  * NOTE : =============================================================
@@ -486,11 +479,28 @@ public class AddressBook {
         final ArrayList<String[]> matchedPersons = new ArrayList<>();
         for (String[] person : getAllPersonsInAddressBook()) {
             final Set<String> wordsInName = new HashSet<>(splitByWhitespace(getNameFromPerson(person)));
-            if (!Collections.disjoint(wordsInName, keywords)) {
+            if (hasOverlap(wordsInName, keywords)) {
                 matchedPersons.add(person);
             }
         }
         return matchedPersons;
+    }
+
+    /**
+     * Check if 2 collections of string have overlap
+     *
+     * @param first for the first collection
+     * @param second for the second collection
+     * @return true if there is an overlap
+     */
+    private static boolean hasOverlap(Collection<String> first, Collection<String> second) {
+        for (Iterator<String> iteratorFirst = first.iterator(); iteratorFirst.hasNext();)
+            for (Iterator<String> iteratorSecond = second.iterator(); iteratorSecond.hasNext();)
+                if (iteratorFirst.next().toLowerCase()
+                        .equals(iteratorSecond.next().toLowerCase())) {
+                    return true;
+                }
+        return false;
     }
 
     /**
