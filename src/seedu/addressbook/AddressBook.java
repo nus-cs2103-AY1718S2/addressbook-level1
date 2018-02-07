@@ -111,6 +111,12 @@ public class AddressBook {
     private static final String COMMAND_FIND_PARAMETERS = "KEYWORD [MORE_KEYWORDS]";
     private static final String COMMAND_FIND_EXAMPLE = COMMAND_FIND_WORD + " alice bob charlie";
 
+    private static final String COMMAND_FIND_BY_EMAIL_WORD = "find_by_email";
+    private static final String COMMAND_FIND_BY_EMAIL_DESC = "Finds all persons whose emails contain the specified "
+                                        + "keyword (not case-sensitive) and displays them as a list with index numbers.";
+    private static final String COMMAND_FIND_BY_EMAIL_PARAMETERS = "KEYWORD";
+    private static final String COMMAND_FIND_BY_EMAIL_EXAMPLE = COMMAND_FIND_BY_EMAIL_WORD + "gmail.com";
+
     private static final String COMMAND_LIST_WORD = "list";
     private static final String COMMAND_LIST_DESC = "Displays all persons as a list with index numbers.";
     private static final String COMMAND_LIST_EXAMPLE = COMMAND_LIST_WORD;
@@ -1084,6 +1090,7 @@ public class AddressBook {
     private static String getUsageInfoForAllCommands() {
         return getUsageInfoForAddCommand() + LS
                 + getUsageInfoForFindCommand() + LS
+                + getUsageInfoForFindByEmailCommand() + LS
                 + getUsageInfoForViewCommand() + LS
                 + getUsageInfoForDeleteCommand() + LS
                 + getUsageInfoForClearCommand() + LS
@@ -1103,6 +1110,13 @@ public class AddressBook {
         return String.format(MESSAGE_COMMAND_HELP, COMMAND_FIND_WORD, COMMAND_FIND_DESC) + LS
                 + String.format(MESSAGE_COMMAND_HELP_PARAMETERS, COMMAND_FIND_PARAMETERS) + LS
                 + String.format(MESSAGE_COMMAND_HELP_EXAMPLE, COMMAND_FIND_EXAMPLE) + LS;
+    }
+
+    /**Returns the string for shoing 'find_by_email' command usage instruction */
+    private static String getUsageInfoForFindByEmailCommand(){
+        return String.format(MESSAGE_COMMAND_HELP, COMMAND_FIND_BY_EMAIL_WORD, COMMAND_FIND_BY_EMAIL_DESC) + LS
+                + String.format(MESSAGE_COMMAND_HELP_PARAMETERS, COMMAND_FIND_BY_EMAIL_PARAMETERS) + LS
+                + String.format(MESSAGE_COMMAND_HELP_EXAMPLE, COMMAND_FIND_BY_EMAIL_EXAMPLE) + LS;
     }
 
     /** Returns the string for showing 'delete' command usage instruction */
