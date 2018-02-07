@@ -290,10 +290,13 @@
 || Enter command: || [Command entered:  list]
 || 	1. Adam Brown  Phone Number: 111111  Email: adam@gmail.com
 || 	2. Betsy Choo  Phone Number: 222222  Email: benchoo@nus.edu.sg
-|| 	3. Dickson Ee  Phone Number: 444444  Email: dickson@nus.edu.sg
-|| 	4. Esther Potato  Phone Number: 555555  Email: esther@notreal.potato
+|| 	3. Pinkie Pie  Phone Number: 66666  Email: pinkie@pony.com
+|| 	4. Still Here  Phone Number: 336494  Email: wjy@gmail.com
+|| 	5. Dickson Ee  Phone Number: 444444  Email: dickson@nus.edu.sg
+|| 	6. Esther Potato  Phone Number: 555555  Email: esther@notreal.potato
+|| 	7. Twilight Sparkle  Phone Number: 1212121  Email: twilight@pony.com
 || 
-|| 4 persons found!
+|| 7 persons found!
 || ===================================================
 || Enter command: || [Command entered:  delete 4]
 || Deleted Person: Still Here  Phone Number: 336494  Email: wjy@gmail.com
