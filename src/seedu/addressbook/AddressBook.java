@@ -437,7 +437,7 @@ public class AddressBook {
 
     /**
      * Finds and lists all persons in address book whose name contains any of the argument keywords.
-     * Keyword matching is case sensitive.
+     * Keyword matching is case insensitive.
      *
      * @param commandArgs full command args string from the user
      * @return feedback display message for the operation result
@@ -494,12 +494,16 @@ public class AddressBook {
      * @return true if there is an overlap
      */
     private static boolean hasOverlap(Collection<String> first, Collection<String> second) {
-        for (Iterator<String> iteratorFirst = first.iterator(); iteratorFirst.hasNext();)
-            for (Iterator<String> iteratorSecond = second.iterator(); iteratorSecond.hasNext();)
-                if (iteratorFirst.next().toLowerCase()
-                        .equals(iteratorSecond.next().toLowerCase())) {
+        for (Iterator<String> iteratorFirst = first.iterator(); iteratorFirst.hasNext();) {
+            String valueFirst = iteratorFirst.next().toLowerCase();
+
+            for (Iterator<String> iteratorSecond = second.iterator(); iteratorSecond.hasNext(); ) {
+                String valueSecond = iteratorSecond.next().toLowerCase();
+                if (valueFirst.equals(valueSecond)) {
                     return true;
                 }
+            }
+        }
         return false;
     }
 
