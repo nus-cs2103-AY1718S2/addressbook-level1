@@ -32,6 +32,10 @@
   list
   add Betsy Choo p/222222 e/benchoo@nus.edu.sg
   list
+  add Pinkie Pie p/66666 e/pinkie@pony.com
+  list
+  add Still Here p/336494 e/wjy@gmail.com
+  list
 
   # order of phone and email should not matter
   add Charlie Dickson e/charlie.d@nus.edu.sg p/333333
@@ -39,6 +43,8 @@
   add Dickson Ee e/dickson@nus.edu.sg p/444444
   list
   add Esther Potato p/555555 e/esther@notreal.potato
+  list
+  add Twilight Sparkle p/1212121 e/twilight@pony.com
   list
 
 ##########################################################
@@ -53,6 +59,7 @@
   find 23912039120
   # matching should be case-sensitive
   find betsy
+  find twilight
 
   # find unique keyword
   find Betsy
