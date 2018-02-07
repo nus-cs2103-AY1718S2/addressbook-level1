@@ -137,22 +137,14 @@ public class AddressBook {
     private static final String DIVIDER = "===================================================";
 
 
-    /* We use a String array to store details of a single person.
-     * The constants given below are the indexes for the different data elements of a person
-     * used by the internal String[] storage format.
-     * For example, a person's name is stored as the 0th element in the array.
+    /* We use a HashMap to store details of a single person.
+     * The Strings given below are the keys for the different data elements of a person
+     * used by the internal HashMap<String, String> storage format.
+     * For example, a person's name is mapped to the key "name".
      */
-    private static final int PERSON_DATA_INDEX_NAME = 0;
-    private static final int PERSON_DATA_INDEX_PHONE = 1;
-    private static final int PERSON_DATA_INDEX_EMAIL = 2;
     private static final String PERSON_PROPERTY_NAME = "name";
     private static final String PERSON_PROPERTY_EMAIL = "email";
     private static final String PERSON_PROPERTY_PHONE = "phone";
-
-    /**
-     * The number of data elements for a single person.
-     */
-    private static final int PERSON_DATA_COUNT = 3;
 
     /**
      * Offset required to convert between 1-indexing and 0-indexing.COMMAND_
