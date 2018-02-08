@@ -150,8 +150,8 @@ public class AddressBook {
 
     /*
      * NOTE : =============================================================================================
-     * Note that the type of the variable below can also be declared as List<String[]>, as follows:
-     *    private static final List<String[]> ALL_PERSONS = new ArrayList<>()
+     * Note that the type of the variable below can also be declared as List<HashMap<PersonProperty, String>>, as follows:
+     *    private static final List<HashMap<PersonProperty, String>> ALL_PERSONS = new ArrayList<>()
      * That is because List is an interface implemented by the ArrayList class.
      * In this code we use ArrayList instead because we wanted to to stay away from advanced concepts
      * such as interface inheritance.
