@@ -172,7 +172,7 @@ Jane Doe p/12346758 e/jane@gmail.com
 ```
 
 All person data are loaded to memory at start up and written to the file after any command that mutates data.
-In-memory data are held in a `ArrayList<String[]>` where each `String[]` object represents a person.
+In-memory data are held in a `ArrayList<HashMap<String, String>>` where each `HashMap<String, String>` object represents a person.
 
 
 ## Testing
