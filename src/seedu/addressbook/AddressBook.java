@@ -129,6 +129,13 @@ public class AddressBook {
     private static final String COMMAND_HELP_DESC = "Shows program usage instructions.";
     private static final String COMMAND_HELP_EXAMPLE = COMMAND_HELP_WORD;
 
+    private static final String COMMAND_SORT_WORD = "sort";
+    private static final String COMMAND_SORT_DESC = "Displays all persons as a list, sorted by specification. Does " +
+            "not save sorted list. Fields are name, phone or address";
+    private static final String COMMAND_SORT_EXAMPLE = COMMAND_SORT_WORD + "[field]";
+    private static final String[] COMMAND_SORT_SUFFIXES = {"name", "phone", "address"};
+    private static final int INVALID_COMMAND = -1;
+
     private static final String COMMAND_EXIT_WORD = "exit";
     private static final String COMMAND_EXIT_DESC = "Exits the program.";
     private static final String COMMAND_EXIT_EXAMPLE = COMMAND_EXIT_WORD;
@@ -381,6 +388,8 @@ public class AddressBook {
             return executeClearAddressBook();
         case COMMAND_HELP_WORD:
             return getUsageInfoForAllCommands();
+        case COMMAND_SORT_WORD:
+            return executeSortAllPersonsInAddressBook(commandArgs);
         case COMMAND_EXIT_WORD:
             executeExitProgramRequest();
         default:
@@ -577,6 +586,47 @@ public class AddressBook {
         ArrayList<String[]> toBeDisplayed = getAllPersonsInAddressBook();
         showToUser(toBeDisplayed);
         return getMessageForPersonsDisplayedSummary(toBeDisplayed);
+    }
+
+    /**
+     * Displays all persons in the address book to the user; sorted by second command word
+     * @return feedback display message for the operation result
+     */
+    private static String executeSortAllPersonsInAddressBook(String arg) {
+        String trimmedArg = arg.trim();
+        int commandType = INVALID_COMMAND;
+        for (int i = 0; i < COMMAND_SORT_SUFFIXES.length; i++) {
+            if (trimmedArg.equals(COMMAND_SORT_SUFFIXES[i])) {
+                commandType = i;
+            }
+        }
+        if (commandType == INVALID_COMMAND) {
+            return getMessageForInvalidCommandInput(COMMAND_SORT_WORD, getUsageInfoForSortCommand());
+        }
+        ArrayList<String[]> toBeSorted = new ArrayList<>(getAllPersonsInAddressBook());
+        ArrayList<String[]> toBeDisplayed = new ArrayList<>();
+        String[] nextPerson;
+
+        while (!toBeSorted.isEmpty())
+        {
+            nextPerson = toBeSorted.get(0);
+            for (String[] person: toBeSorted)
+            {
+                if (isSecondPersonSmaller(nextPerson, person, commandType)) {
+                    nextPerson = person;
+                }
+            }
+            toBeDisplayed.add(nextPerson);
+            toBeSorted.remove((nextPerson));
+        }
+        showToUser(toBeDisplayed);
+        return getMessageForPersonsDisplayedSummary(toBeDisplayed);
+
+    }
+
+    private static boolean isSecondPersonSmaller(String person1[], String person2[], int field) {
+        int result = person1[field].compareTo(person2[field]);
+        return result > 0;
     }
 
     /**
@@ -1087,6 +1137,7 @@ public class AddressBook {
                 + getUsageInfoForViewCommand() + LS
                 + getUsageInfoForDeleteCommand() + LS
                 + getUsageInfoForClearCommand() + LS
+                + getUsageInfoForSortCommand() + LS
                 + getUsageInfoForExitCommand() + LS
                 + getUsageInfoForHelpCommand();
     }
@@ -1122,6 +1173,12 @@ public class AddressBook {
     private static String getUsageInfoForViewCommand() {
         return String.format(MESSAGE_COMMAND_HELP, COMMAND_LIST_WORD, COMMAND_LIST_DESC) + LS
                 + String.format(MESSAGE_COMMAND_HELP_EXAMPLE, COMMAND_LIST_EXAMPLE) + LS;
+    }
+
+    /** Returns the string for showing 'sort' command usage instruction */
+    private static String getUsageInfoForSortCommand() {
+        return String.format(MESSAGE_COMMAND_HELP, COMMAND_SORT_WORD, COMMAND_SORT_DESC) + LS
+                + String.format(MESSAGE_COMMAND_HELP_EXAMPLE, COMMAND_SORT_EXAMPLE) + LS;
     }
 
     /** Returns string for showing 'help' command usage instruction */
