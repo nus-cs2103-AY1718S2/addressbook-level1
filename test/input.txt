@@ -30,11 +30,11 @@
   # should add correctly
   add Adam Brown p/111111 e/adam@gmail.com
   list
-  add Betsy Choo p/222222 e/benchoo@nus.edu.sg
+  add Betsy Choo p/222222 e/benchoo@nUs.edu.sg
   list
 
   # order of phone and email should not matter
-  add Charlie Dickson e/charlie.d@nus.edu.sg p/333333
+  add Charlie Dickson e/charlie.d@nuS.edu.Sg p/333333
   list
   add Dickson Ee e/dickson@nus.edu.sg p/444444
   list
@@ -60,6 +60,21 @@
   find Dickson
   # find multiple with some keywords
   find Charlie Betsy
+
+##########################################################
+# test find persons command
+##########################################################
+
+  # should match none with no keywords
+  find_by_email 123456
+  find_by_email abcdefg
+
+  # find unique keyword
+  find_by_email adam@gmail.com
+  find_by_email notreal.potato
+  # find multiple with same keyword but different cases
+  find_by_email nus.edu.sg
+  find_by_email NUS.edu.SG
 
 ##########################################################
 # test delete person command

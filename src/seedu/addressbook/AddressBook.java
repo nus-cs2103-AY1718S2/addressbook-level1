@@ -111,6 +111,12 @@ public class AddressBook {
     private static final String COMMAND_FIND_PARAMETERS = "KEYWORD [MORE_KEYWORDS]";
     private static final String COMMAND_FIND_EXAMPLE = COMMAND_FIND_WORD + " alice bob charlie";
 
+    private static final String COMMAND_FIND_BY_EMAIL_WORD = "find_by_email";
+    private static final String COMMAND_FIND_BY_EMAIL_DESC = "Finds all persons whose emails contain the specified "
+                                        + "keyword (not case-sensitive) and displays them as a list with index numbers.";
+    private static final String COMMAND_FIND_BY_EMAIL_PARAMETERS = "KEYWORD";
+    private static final String COMMAND_FIND_BY_EMAIL_EXAMPLE = COMMAND_FIND_BY_EMAIL_WORD + " gmail.com";
+
     private static final String COMMAND_LIST_WORD = "list";
     private static final String COMMAND_LIST_DESC = "Displays all persons as a list with index numbers.";
     private static final String COMMAND_LIST_EXAMPLE = COMMAND_LIST_WORD;
@@ -373,6 +379,8 @@ public class AddressBook {
             return executeAddPerson(commandArgs);
         case COMMAND_FIND_WORD:
             return executeFindPersons(commandArgs);
+        case COMMAND_FIND_BY_EMAIL_WORD:
+            return executeFindByEmail(commandArgs);
         case COMMAND_LIST_WORD:
             return executeListAllPersonsInAddressBook();
         case COMMAND_DELETE_WORD:
@@ -487,6 +495,38 @@ public class AddressBook {
         for (String[] person : getAllPersonsInAddressBook()) {
             final Set<String> wordsInName = new HashSet<>(splitByWhitespace(getNameFromPerson(person)));
             if (!Collections.disjoint(wordsInName, keywords)) {
+                matchedPersons.add(person);
+            }
+        }
+        return matchedPersons;
+    }
+
+    /**
+     * Finds and lists all persons in address book whose email contains the argument keyword.
+     * Keyword matching is not case sensitive.
+     *
+     * @param commandArgs keyword argument string from the user
+     * @return feedback display message for the operation result
+     */
+    private static String executeFindByEmail(String commandArgs){
+        final String keyword = commandArgs;
+        final ArrayList<String[]> personsFound = getPersonsWithEmailContainingTheKeyword(keyword);
+        showToUser(personsFound);
+        return getMessageForPersonsDisplayedSummary(personsFound);
+    }
+
+    /**
+     * Retrieves all persons in the full model whose emails contain the specified keyword.
+     *
+     * @param keyword for searching
+     * @return list of persons in full model with email containing the keyword
+     */
+    private static ArrayList<String[]> getPersonsWithEmailContainingTheKeyword(String keyword) {
+        final ArrayList<String[]> matchedPersons = new ArrayList<>();
+        final String keywordInLowerCase = keyword.toLowerCase();
+        for (String[] person : getAllPersonsInAddressBook()) {
+            final String email = getEmailFromPerson(person).toLowerCase();
+            if (email.contains(keywordInLowerCase)) {
                 matchedPersons.add(person);
             }
         }
@@ -1084,6 +1124,7 @@ public class AddressBook {
     private static String getUsageInfoForAllCommands() {
         return getUsageInfoForAddCommand() + LS
                 + getUsageInfoForFindCommand() + LS
+                + getUsageInfoForFindByEmailCommand() + LS
                 + getUsageInfoForViewCommand() + LS
                 + getUsageInfoForDeleteCommand() + LS
                 + getUsageInfoForClearCommand() + LS
@@ -1103,6 +1144,13 @@ public class AddressBook {
         return String.format(MESSAGE_COMMAND_HELP, COMMAND_FIND_WORD, COMMAND_FIND_DESC) + LS
                 + String.format(MESSAGE_COMMAND_HELP_PARAMETERS, COMMAND_FIND_PARAMETERS) + LS
                 + String.format(MESSAGE_COMMAND_HELP_EXAMPLE, COMMAND_FIND_EXAMPLE) + LS;
+    }
+
+    /**Returns the string for shoing 'find_by_email' command usage instruction */
+    private static String getUsageInfoForFindByEmailCommand(){
+        return String.format(MESSAGE_COMMAND_HELP, COMMAND_FIND_BY_EMAIL_WORD, COMMAND_FIND_BY_EMAIL_DESC) + LS
+                + String.format(MESSAGE_COMMAND_HELP_PARAMETERS, COMMAND_FIND_BY_EMAIL_PARAMETERS) + LS
+                + String.format(MESSAGE_COMMAND_HELP_EXAMPLE, COMMAND_FIND_BY_EMAIL_EXAMPLE) + LS;
     }
 
     /** Returns the string for showing 'delete' command usage instruction */
