@@ -210,6 +210,15 @@ public class AddressBook {
         showWelcomeMessage();
         processProgramArgs(args);
         loadDataFromStorage();
+        getUserInputAndShowFeedback();
+        return;
+    }
+
+    /*
+     * Runs an infinite loop where user input is received, it is then echoed,
+     * then executed and finally the feedback is received and finally printed.
+     */
+    private static void getUserInputAndShowFeedback() {
         while (true) {
             String userCommand = getUserInput();
             echoUserCommand(userCommand);
