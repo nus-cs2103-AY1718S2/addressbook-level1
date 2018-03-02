@@ -125,6 +125,10 @@ public class AddressBook {
     private static final String COMMAND_CLEAR_DESC = "Clears address book permanently.";
     private static final String COMMAND_CLEAR_EXAMPLE = COMMAND_CLEAR_WORD;
 
+    private static final String COMMAND_SORT_WORD = "sort";
+    private static final String COMMAND_SORT_DESC = "Sorts list of persons address book by name.";
+    private static final String COMMAND_SORT_EXAMPLE = COMMAND_SORT_WORD;
+
     private static final String COMMAND_HELP_WORD = "help";
     private static final String COMMAND_HELP_DESC = "Shows program usage instructions.";
     private static final String COMMAND_HELP_EXAMPLE = COMMAND_HELP_WORD;
@@ -210,6 +214,15 @@ public class AddressBook {
         showWelcomeMessage();
         processProgramArgs(args);
         loadDataFromStorage();
+        getUserInputAndShowFeedback();
+        return;
+    }
+
+    /*
+     * Runs an infinite loop where user input is received, it is then echoed,
+     * then executed and finally the feedback is received and finally printed.
+     */
+    private static void getUserInputAndShowFeedback() {
         while (true) {
             String userCommand = getUserInput();
             echoUserCommand(userCommand);
@@ -379,6 +392,8 @@ public class AddressBook {
             return executeDeletePerson(commandArgs);
         case COMMAND_CLEAR_WORD:
             return executeClearAddressBook();
+        case COMMAND_SORT_WORD:
+            return executeSortAddressBookByName();
         case COMMAND_HELP_WORD:
             return getUsageInfoForAllCommands();
         case COMMAND_EXIT_WORD:
@@ -584,6 +599,12 @@ public class AddressBook {
      */
     private static void executeExitProgramRequest() {
         exitProgram();
+    }
+
+    private static String executeSortAddressBookByName() {
+        ArrayList<String[]> toBeDisplayed = getAllPersonsInAddressBook();
+        showToUser(toBeDisplayed);
+        return getMessageForPersonsDisplayedSummary(toBeDisplayed);
     }
 
     /*
