@@ -601,6 +601,12 @@ public class AddressBook {
         exitProgram();
     }
 
+    private static String executeSortAddressBookByName() {
+        ArrayList<String[]> toBeDisplayed = getAllPersonsInAddressBook();
+        showToUser(toBeDisplayed);
+        return getMessageForPersonsDisplayedSummary(toBeDisplayed);
+    }
+
     /*
      * ===========================================
      *               UI LOGIC
